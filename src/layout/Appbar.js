@@ -37,19 +37,19 @@ class TodoAppbar extends  React.Component {
     constructor(prop) {
         super(prop);
         this.state = {
-            form_open : false,
-            login_open : false,
-            logout_open : false,
-            left : false,
-            Email : "",
-            Password : "",
-            Nickname : "",
-            LoginUser : "",
-            LoginStatus : 0,
-            Email_Error : false,
-            Password_Error : false
-        };
-    }
+            form_open: false,
+            login_open: false,
+            logout_open: false,
+            left: false,
+            Email: "",
+            Password: "",
+            Nickname: "",
+            LoginUser: "",
+            LoginStatus: 0,
+            Email_Error: false,
+            Password_Error: false
+        }
+    };
 
     handleChange = {
         Email : (e) => {
@@ -92,7 +92,7 @@ class TodoAppbar extends  React.Component {
                 password : this.state.Password
             }
         }).then(res => {
-            console.log(res)
+            console.log(res);
             if (res.data.success === 1) {
                 this.setState({
                     LoginUser : res.data.data.Email,
@@ -123,15 +123,24 @@ class TodoAppbar extends  React.Component {
     };
 
     handleLogoutClose = () => {
-        this.setState({ logout_open: false});
+        this.setState({ logout_open: false });
     };
 
     handleLogout = () => {
-        this.setState({
-            LoginUser : "",
-            LoginStatus : 0,
-            logout_open : false
-        })
+        axios.post('/todosave', {
+            "Email" : this.state.LoginUser,
+            "Todolist" : this.props.todos
+        }).then(res => {
+            if(res.status = 200){
+                this.setState({
+                    LoginUser : "",
+                    LoginStatus : 0,
+                    logout_open : false
+                })
+            } else {
+                console.log(res.status);
+            }
+        }).catch(res => { console.log(res) });
     };
 
     handleSubscrible = () => {
@@ -152,13 +161,15 @@ class TodoAppbar extends  React.Component {
         this.setState({
             [side] : open
         });
+
+        console.log(this.props.todos);
     };
 
     render(){
         const sideList = (
             <div style={styles.list}>
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    {['Notice', 'Information', 'Help'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <i className="fas fa-inbox"></i> : <i className="far fa-envelope"></i>}</ListItemIcon>
                             <ListItemText primary={text} />
@@ -167,7 +178,7 @@ class TodoAppbar extends  React.Component {
                 </List>
                 <Divider />
                 <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    {['Profile', 'Edit User'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <i className="fas fa-inbox"></i> : <i className="far fa-envelope"></i>}</ListItemIcon>
                             <ListItemText primary={text} />

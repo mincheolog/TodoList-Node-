@@ -1,23 +1,42 @@
 const mongoose = require('mongoose');
+const util = require('../utility/utility');
 const Schema = mongoose.Schema;
 
 const SignSchema = mongoose.model('Sign', Schema({
    Email : String
 }), 'account');
 
-const RegistSchema = mongoose.model('Regist', Schema({
-   "Email" : {
-      type : String
+const ResistSchema = mongoose.model('Registration', Schema({
+   Email : {
+      type : String,
+      unique : true,
+      required : true
    },
-   "Password" : {
+   Password : {
       type : String,
       default : ''
    },
-   "Created_At" : {
-      type : Date,
-      default : Date.now
+   Created_At : {
+      type : String,
+      default : util.GET_CURRENT_DATE
    }
 }), 'account');
+
+const TodoListSchema = mongoose.model('GetList', Schema({
+   Email : String,
+   Created_At : String
+}), 'list');
+
+const TodosaveSchema = mongoose.model('SaveList', Schema({
+   Email : {
+      type : String
+   },
+   Todolist : [mongoose.Schema.Types.Mixed],
+   Created_At : {
+      type : String,
+      default : util.GET_CURRENT_DATE
+   }
+}), 'list');
 
 const MODEL = (param) => {
    var model;
@@ -25,8 +44,14 @@ const MODEL = (param) => {
       case "login":
          model = SignSchema;
          break;
-      case "regist":
-         model = RegistSchema;
+      case "registration":
+         model = ResistSchema;
+         break;
+      case "findlist":
+         model = TodoListSchema;
+         break;
+      case "todosave":
+         model = TodosaveSchema;
          break;
    }
    return model

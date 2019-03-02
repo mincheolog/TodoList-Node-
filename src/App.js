@@ -3,6 +3,7 @@ import TodoListTemplate from './components/TodoListTemplate';
 import Form from './components/Form';
 import TodoItemList from './components/TodoItemList';
 import Appbar from './layout/Appbar.js';
+import Footer from "./layout/footer";
 
 class App extends Component {
 
@@ -85,7 +86,7 @@ class App extends Component {
 
     return (
         <React.Fragment>
-          <Appbar/>
+          <Appbar todos={todos}/>
           <TodoListTemplate form={(
               <Form
                  value={input}
@@ -96,6 +97,7 @@ class App extends Component {
           )}>
           <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove}/>
           </TodoListTemplate>
+          <Footer/>
         </React.Fragment>
     );
   }

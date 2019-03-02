@@ -1,5 +1,6 @@
 const model = require('../schema/schema');
 const bodyParser = require('body-parser');
+const util = require('../utility/utility');
 let username, password;
 let result = {};
 
@@ -12,8 +13,6 @@ module.exports = (app) => {
     app.get('/Login', (req, res) => {
         username = req.query.username;
         password = req.query.password;
-        var ObjectID = require('mongodb').ObjectID;
-        console.log(new ObjectID);
         if(!username || !password) {
             result["success"] = 0;
             result["error"] = "id error";
@@ -30,8 +29,26 @@ module.exports = (app) => {
                     console.log(data);
                     res.send("Empty Data");
                 } else {
+                    list = () => {
+                        let data2;
+                        model('findlist').find(
+                            { Email : data["Email"] },
+                            { Created_At: util.GET_CURRENT_DATE },
+                            (err, todolist) => {
+                                if(err){
+                                    throw err;
+                                } else if(todolist == null) {
+                                    todolist = "";
+                                } else {
+                                    data2 = todolist;
+                                }
+                            });
+                        return data2;
+                    };
+                    let data3 = list();
                     data = {
                         data,
+                        data3,
                         success : 1
                     };
                     console.log(data);
@@ -54,10 +71,10 @@ module.exports = (app) => {
             res.json(result);
         } else {
             var data = req.body;
-            var regist_model = model('regist');
-            var regist = new regist_model(data);
-            console.log(regist);
-            regist.save((err, data) => {
+            var registration_model = model('registration');
+            var registration = new registration_model(data);
+            console.log(registration);
+            registration.save((err, data) => {
                 if (err) {
                     throw err;
                 } else if (data == null) {
@@ -68,6 +85,22 @@ module.exports = (app) => {
                 }
             })
         }
+    });
+    app.post('/todosave', (req, res) => {
+        var data = req.body;
+        var todosave_model = model('todosave');
+        var todosave = new todosave_model(data);
+        console.log(data);
+        todosave.save((err, data) => {
+            if (err) {
+                throw err;
+            } else if (data == null) {
+                console.log(data);
+                res.send("Empty Data");
+            } else {
+                res.send(data);
+            }
+        })
     });
     app.put('/put', (req, res) => {
         res.send('TEST put');
