@@ -20,6 +20,12 @@ class App extends Component {
     }
   };
 
+  handleSyncTodos = (item) => {
+    this.setState({
+      todos: item
+    })
+  };
+
   handleChange = (e) => {
     this.setState({
       input: e.target.value
@@ -86,7 +92,7 @@ class App extends Component {
 
     return (
         <React.Fragment>
-          <Appbar todos={todos}/>
+          <Appbar todos={todos} setTodoitem={this.handleSyncTodos}/>
           <TodoListTemplate form={(
               <Form
                  value={input}

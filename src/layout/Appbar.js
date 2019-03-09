@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import axios from 'axios';
@@ -53,7 +54,7 @@ class TodoAppbar extends  React.Component {
 
     handleChange = {
         Email : (e) => {
-            this.setState({
+        this.setState({
                 Email : e.target.value
             })
         },
@@ -93,11 +94,17 @@ class TodoAppbar extends  React.Component {
             }
         }).then(res => {
             console.log(res);
-            if (res.data.success === 1) {
+            if (res.data.status === 200) {
                 this.setState({
-                    LoginUser : res.data.data.Email,
+                    LoginUser : res.data.user.Email,
                     LoginStatus : 1,
                     login_open : false
+                });
+                this.props.setTodoitem(res.data.list_data[0].Todolist)
+            } else if(res.data.status === 403) {
+                this.setState({
+                    Email_Error : true,
+                    Password_Error : true
                 })
             } else {
                 if (res.data.success === 0) {
@@ -136,7 +143,8 @@ class TodoAppbar extends  React.Component {
                     LoginUser : "",
                     LoginStatus : 0,
                     logout_open : false
-                })
+                });
+                this.props.setTodoitem([]);
             } else {
                 console.log(res.status);
             }
@@ -161,8 +169,6 @@ class TodoAppbar extends  React.Component {
         this.setState({
             [side] : open
         });
-
-        console.log(this.props.todos);
     };
 
     render(){
@@ -310,9 +316,12 @@ class TodoAppbar extends  React.Component {
                 >
                     <DialogTitle id="form-dialog-title">Logout</DialogTitle>
                     <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Do you Really want to logout?
+                        </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={this.handleLogoutClose} color="primary">
                             Cancel
                         </Button>
                         <Button onClick={this.handleLogout} color="primary">

@@ -4,6 +4,19 @@ const util = require('../utility/utility');
 let username, password;
 let result = {};
 
+list = (username, callback) => {
+    model('findlist')
+        .find(
+        { Email : username },
+        { Created_At: util.GET_CURRENT_DATE })
+        .then((list) => {
+            callback(list);
+        })
+        .catch((err) => {
+            callback(err);
+        });
+};
+
 module.exports = (app) => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
@@ -22,39 +35,32 @@ module.exports = (app) => {
             }
             res.json(result);
         } else {
-            model('login').findOne({ Email : username }, (err, data) => {
-                if (err) {
-                    throw err;
-                } else if(data == null) {
-                    console.log(data);
-                    res.send("Empty Data");
-                } else {
-                    list = () => {
-                        let data2;
-                        model('findlist').find(
-                            { Email : data["Email"] },
-                            { Created_At: util.GET_CURRENT_DATE },
-                            (err, todolist) => {
-                                if(err){
-                                    throw err;
-                                } else if(todolist == null) {
-                                    todolist = "";
-                                } else {
-                                    data2 = todolist;
-                                }
-                            });
-                        return data2;
-                    };
-                    let data3 = list();
-                    data = {
-                        data,
-                        data3,
-                        success : 1
-                    };
-                    console.log(data);
-                    res.send(data);
-                }
-            })
+            model('login').findOne({ Email : username, Password : password }).select('Email')
+                .then((user) => {
+                    let data = {};
+                    let list_data;
+                    let user_err = user ==  null ? 1 : 0;
+                    if (user_err === 0) {
+                        user_err === 0
+                            ? list(username, (item) => {
+                                list_data = item;
+                            })
+                            : "Empty data";
+                        setTimeout(()=> {
+                            data = {
+                                user,
+                                list_data,
+                                status : 200
+                            };
+                            res.send(data);
+                        }, 1000);
+                    } else {
+                        res.send(data = { status : 403 })
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
         }
     });
     app.post('/Submit', (req, res) => {
@@ -74,7 +80,7 @@ module.exports = (app) => {
             var registration_model = model('registration');
             var registration = new registration_model(data);
             console.log(registration);
-            registration.save((err, data) => {
+            registration.save(function(err, data) {
                 if (err) {
                     throw err;
                 } else if (data == null) {

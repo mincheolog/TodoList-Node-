@@ -28,6 +28,7 @@ var user = CONFIG('user_name');
 var password = CONFIG('password');
 var db_url = `mongodb://${user}:${password}@ds261644.mlab.com:61644/todoacount`;
 
+mongodb.Promise = global.Promise;
 mongodb.connect(db_url, {useNewUrlParser: true});
 
 const db = mongodb.connection;

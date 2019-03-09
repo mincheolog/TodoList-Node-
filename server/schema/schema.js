@@ -19,7 +19,7 @@ const ResistSchema = mongoose.model('Registration', Schema({
    Created_At : {
       type : String,
       default : util.GET_CURRENT_DATE
-   }
+   },
 }), 'account');
 
 const TodoListSchema = mongoose.model('GetList', Schema({

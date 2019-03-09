@@ -14,10 +14,11 @@ class TodoItem extends Component {
             <div className="todo-item" onClick={() => onToggle(id)}>
                 <div className="remove" onClick={(e) => {
                     e.stopPropagation();
-                    onRemove(id)}
+                    onRemove(id)
+                }
                 }><i className="far fa-trash-alt"></i></div>
                 <div className={`todo-text ${checked && 'checked'}`}>
-                    <div>{text}</div>
+                    <div>{ text }</div>
                 </div>
                 {
                     checked && (<div className="check-mark"><i className="fas fa-check"></i></div>)
