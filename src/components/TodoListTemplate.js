@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/TodoListTemplate.css';
+import DateForm from './DateForm.js';
 
 const TodoListTemplate = ({form, children}) => {
     return (
@@ -7,6 +8,7 @@ const TodoListTemplate = ({form, children}) => {
             <div className="title">
                 TodoList
             </div>
+            <DateForm/>
             <section className="form-wrapper">
                 { form }
             </section>

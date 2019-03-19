@@ -98,7 +98,9 @@ class TodoAppbar extends  React.Component {
                 this.setState({
                     LoginUser : res.data.user.Email,
                     LoginStatus : 1,
-                    login_open : false
+                    login_open : false,
+                    Email : "",
+                    Password : ""
                 });
                 this.props.setTodoitem(res.data.list_data[0].Todolist)
             } else if(res.data.status === 403) {
@@ -200,7 +202,6 @@ class TodoAppbar extends  React.Component {
                         tabIndex={0}
                         role="button"
                         onClick={this.handleOpenSideMenu('left', false)}
-                        onKeyDown={this.handleOpenSideMenu('left', false)}
                     >
                         {sideList}
                     </div>

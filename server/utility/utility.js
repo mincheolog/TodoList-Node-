@@ -4,9 +4,10 @@ const UTIL = {
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
         let day = date.getDate();
-        day = day.toString.length == 1 ? "0" + day : day;
+        month = month.toString().length === 1 ? "0" + month : month;
+        day = day.toString().length === 1 ? "0" + day : day;
 
-        date = year + "-" + "0" + month + "-" + day;
+        date = year + "-" + month + "-" + day;
 
         return date;
     },
@@ -15,8 +16,10 @@ const UTIL = {
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
         let day = date.getDate() - 1;
+        month = month.toString().length === 1 ? "0" + month : month;
+        day = day.toString().length === 1 ? "0" + day : day;
 
-        date = year + "-" + "0" + month + "-" + day;
+        date = year + "-" + month + "-" + day;
 
         return date;
     }
