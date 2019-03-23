@@ -24,7 +24,6 @@
   "devDependencies": {},
   "scripts": {
     "start": "server/main.js",
-    "build": "node node_modules/webpack/bin/webpack.js --display-error-details",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
