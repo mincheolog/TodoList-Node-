@@ -102,7 +102,7 @@ class TodoAppbar extends  React.Component {
                     Email : "",
                     Password : ""
                 });
-                this.props.setTodoitem(res.data.list_data[0].Todolist)
+                this.props.setTodoitem(res.data.list_data[0].Todolist,res.data.user.Email);
             } else if(res.data.status === 403) {
                 this.setState({
                     Email_Error : true,
@@ -146,7 +146,7 @@ class TodoAppbar extends  React.Component {
                     LoginStatus : 0,
                     logout_open : false
                 });
-                this.props.setTodoitem([]);
+                this.props.setTodoitem([], '');
             } else {
                 console.log(res.status);
             }

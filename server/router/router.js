@@ -109,8 +109,24 @@ module.exports = (app) => {
         })
     });
     app.get('/searchlist', (req,res) => {
+        var user_name = req.query.username;
         var date = req.query.selected_date;
-        date != '' ? res.send('response success' + date) : res.send('date is not defined');
+        if(date == '' || user_name == '') {
+            console.log(date);
+            console.log(user_name);
+            res.send('date or user is not defined');
+        } else {
+            let list_search_model = model('findlist');
+            list_search_model.find({ Email : user_name }, {Created_At: date})
+                .then((list) => {
+                    console.log(list);
+                    res.send(list);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.send(err);
+                })
+        }
     });
     app.put('/put', (req, res) => {
         res.send('TEST put');
