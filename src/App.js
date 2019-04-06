@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate';
 import Form from './components/Form';
-<<<<<<< HEAD
 import DateForm from './components/DateForm';
 import TodoItemList from './components/TodoItemList';
 import Appbar from './layout/Appbar';
 import Footer from "./layout/footer";
 import axios from 'axios';
-=======
-import TodoItemList from './components/TodoItemList';
-import Appbar from './layout/Appbar.js';
-import Footer from "./layout/footer";
->>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
 
 class App extends Component {
 
@@ -20,15 +14,11 @@ class App extends Component {
     this.id = 3;
     this.state = {
       input: '',
-<<<<<<< HEAD
       current_date : '',
-=======
->>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
       todos: [
           { id: 0, text: 'test', checked: false },
           { id: 1, text: 'test1', checked: true },
           { id: 2, text: 'test2', checked: false },
-<<<<<<< HEAD
       ],
       user : ''
     }
@@ -64,15 +54,6 @@ class App extends Component {
   handleSetDate = (date) => {
     this.setState({
       current_date : date
-=======
-      ]
-    }
-  };
-
-  handleSyncTodos = (item) => {
-    this.setState({
-      todos: item
->>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
     })
   };
 
@@ -131,28 +112,19 @@ class App extends Component {
   };
 
   render() {
-<<<<<<< HEAD
     const { input, todos, user } = this.state;
-=======
-    const { input, todos } = this.state;
->>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
     const {
       handleChange,
       handleCreate,
       handleKeyPress,
       handleToggle,
-<<<<<<< HEAD
       handleRemove,
       handleSyncTodos,
       handleSetDate
-=======
-      handleRemove
->>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
     } = this;
 
     return (
         <React.Fragment>
-<<<<<<< HEAD
           <Appbar todos={todos} setTodoitem={handleSyncTodos} user={user}/>
           <TodoListTemplate
               onSearch={this.handleSearchTodoList}
@@ -170,17 +142,6 @@ class App extends Component {
                 />
                 )}
               >
-=======
-          <Appbar todos={todos} setTodoitem={this.handleSyncTodos}/>
-          <TodoListTemplate form={(
-              <Form
-                 value={input}
-                 onKeyPress={handleKeyPress}
-                 onChange={handleChange}
-                 onCreate={handleCreate}
-              />
-          )}>
->>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
           <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove}/>
           </TodoListTemplate>
           <Footer/>
