@@ -108,6 +108,7 @@ module.exports = (app) => {
             }
         })
     });
+<<<<<<< HEAD
     app.get('/searchlist', (req,res) => {
         var user_name = req.query.username;
         var date = req.query.selected_date;
@@ -128,6 +129,8 @@ module.exports = (app) => {
                 })
         }
     });
+=======
+>>>>>>> 9f476ac398aecce93e849a4b94fdc029ccef76cb
     app.put('/put', (req, res) => {
         res.send('TEST put');
     });
