@@ -17,6 +17,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import axios from 'axios';
+import Store from '../store/StateStore';
 
 const styles = {
     root: {
@@ -42,31 +43,29 @@ class TodoAppbar extends  React.Component {
             login_open: false,
             logout_open: false,
             left: false,
-            Email: "",
-            Password: "",
-            Nickname: "",
-            LoginUser: "",
-            LoginStatus: 0,
             Email_Error: false,
-            Password_Error: false
+            Password_Error: false,
+            Email : "",
+            Password : "",
+            Nickname : ""
         }
     };
 
     handleChange = {
         Email : (e) => {
-        this.setState({
+            this.setState({
                 Email : e.target.value
-            })
+            });
         },
         password : (e) => {
             this.setState({
                 Password : e.target.value
-            })
+            });
         },
         Nickname : (e) => {
             this.setState({
                 Nickname : e.target.value
-            })
+            });
         }
     };
 
@@ -75,15 +74,24 @@ class TodoAppbar extends  React.Component {
     };
 
     handleClose = () => {
-        this.setState({ form_open: false });
+        this.setState({
+            Email : "",
+            Password : "",
+            Nickname : "",
+            form_open: false
+        });
     };
 
     handleLoginOpen = () => {
-        this.setState({ login_open: true});
+        this.setState({ login_open: true });
     };
 
     handleLoginClose = () => {
-        this.setState({ login_open: false});
+        this.setState({
+            Email : "",
+            Password : "",
+            login_open: false
+        });
     };
 
     handleLogin = () => {
@@ -95,14 +103,14 @@ class TodoAppbar extends  React.Component {
         }).then(res => {
             console.log(res);
             if (res.data.status === 200) {
+                Store.user_info.LoginUser = res.data.user.Email;
+                Store.user_info.LoginStatus = 1;
+                this.props.SyncTodo(res.data.list_data[0].Todolist);
                 this.setState({
-                    LoginUser : res.data.user.Email,
-                    LoginStatus : 1,
-                    login_open : false,
                     Email : "",
-                    Password : ""
+                    Password : "",
+                    login_open : false
                 });
-                this.props.setTodoitem(res.data.list_data[0].Todolist,res.data.user.Email);
             } else if(res.data.status === 403) {
                 this.setState({
                     Email_Error : true,
@@ -137,16 +145,14 @@ class TodoAppbar extends  React.Component {
 
     handleLogout = () => {
         axios.post('/todosave', {
-            "Email" : this.state.LoginUser,
-            "Todolist" : this.props.todos
+            "Email" : Store.user_info.LoginUser,
+            "Todolist" : Store.state.Todos
         }).then(res => {
             if(res.status = 200){
-                this.setState({
-                    LoginUser : "",
-                    LoginStatus : 0,
-                    logout_open : false
-                });
-                this.props.setTodoitem([], '');
+                Store.user_info.LoginUser = "";
+                Store.user_info.LoginStatus = 0;
+                Store.state.Todos = [];
+                this.setState({ logout_open : false });
             } else {
                 console.log(res.status);
             }
@@ -173,14 +179,22 @@ class TodoAppbar extends  React.Component {
         });
     };
 
+    handleSynchref = (e) => {
+        let href_target = e.target.getAttribute('data-value');
+        if(href_target == null) {
+            href_target = e.target.parentNode.getAttribute('data-value');
+        }
+        this.props.hrefAction(href_target);
+    };
+
     render(){
         const sideList = (
             <div style={styles.list}>
                 <List>
-                    {['Notice', 'Information', 'Help'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <i className="fas fa-inbox"></i> : <i className="far fa-envelope"></i>}</ListItemIcon>
-                            <ListItemText primary={text} />
+                    {['TodoList', 'Notice', 'Information', 'Help'].map((text, index) => (
+                        <ListItem button key={text} data-value={text} onClick={this.handleSynchref}>
+                            <ListItemIcon data-value={text}>{index % 2 === 0 ? <i className="fas fa-inbox"></i> : <i className="far fa-envelope"></i>}</ListItemIcon>
+                            <ListItemText primary={text} data-value={text}/>
                         </ListItem>
                     ))}
                 </List>
@@ -217,12 +231,12 @@ class TodoAppbar extends  React.Component {
                             TodoList Web Application
                         </Typography>
                         <Typography variant="h6" color="inherit" align="center" style={styles.grow}>
-                            {this.state.LoginUser === "" ? "" : this.state.LoginUser}
+                            {Store.user_info.LoginUser === "" ? "" : Store.user_info.LoginUser}
                         </Typography>
-                        {this.state.LoginStatus === 0
+                        {Store.user_info.LoginStatus === 0
                             ? <Button color="inherit" onClick={this.handleLoginOpen}>Login</Button>
                             : <Button color="inherit" onClick={this.handleLogoutOpen}>Logout</Button> }
-                        {this.state.LoginStatus === 0
+                        {Store.user_info.LoginStatus === 0
                             ? <Button color="inherit" onClick={this.handleClickOpen}>Sign Up</Button>
                             : "" }
                     </Toolbar>
@@ -258,7 +272,7 @@ class TodoAppbar extends  React.Component {
                             id="password"
                             label="Password"
                             type="password"
-                            value={this.state.password}
+                            value={this.state.Password}
                             onChange={this.handleChange.password}
                             fullWidth
                         />
@@ -296,7 +310,7 @@ class TodoAppbar extends  React.Component {
                             label="Password"
                             error={this.state.Password_Error}
                             type="password"
-                            value={this.state.password}
+                            value={this.state.Password}
                             onChange={this.handleChange.password}
                             fullWidth
                         />
