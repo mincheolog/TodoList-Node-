@@ -1,0 +1,63 @@
+.page404 {
+    padding: 10% 0 0 20%;
+    background: transparent;
+}
+.page-404-section {
+    display: grid;
+    grid-template-columns: 20% 20% 20%;
+    grid-template-rows: 50% 50%;
+}
+.page-404-article {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    padding: 50px 25px 50px 25px;
+    font-size: 35px;
+    text-align: center;
+    font-family: 'Anton', sans-serif;
+}
+.page-404-btn-group {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    margin: 10% 0 0 10%;
+}
+.page-404-image {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+.page-404-image > img {
+    max-width: 350px;
+}
+.page-404-btn {
+    width: 150px;
+    max-width: 150px;
+    height: 80px;
+    max-height: 80px;
+    cursor: pointer;
+    font-size: 35px;
+    font-family: 'Anton', sans-serif;
+}
+.page-404-btn.btn-help {
+    margin-right: 50px;
+    color: #2e5d9f;
+    border: solid 3px #2e5d9f;
+    background: transparent;
+}
+.page-404-btn.btn-help:hover {
+    color: #ffffff;
+    background: #2e5d9f;
+}
+.page-404-btn.btn-home {
+    color: #2e5d9f;
+    border: solid 3px #2e5d9f;
+    background: transparent;
+}
+.page-404-btn.btn-home:hover {
+    color: #ffffff;
+    background: #2e5d9f;
+}

@@ -6,6 +6,7 @@
 /.idea
 /.pnp
 .pnp.js
+/static
 
 # testing
 /coverage

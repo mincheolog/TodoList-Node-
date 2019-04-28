@@ -1,0 +1,9 @@
+.page-notice {
+    padding: 5% 0 0 5%;
+    background: transparent;
+}
+.page-notice-section {
+    display: grid;
+    grid-template-columns: 20% 20% 20%;
+    grid-column-gap: 20px;
+}
