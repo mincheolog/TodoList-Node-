@@ -7,3 +7,16 @@
     grid-template-columns: 20% 20% 20%;
     grid-column-gap: 20px;
 }
+.like {
+    color: #e64980;
+    animation: like;
+    animation-duration: 1s;
+}
+@keyframes like {
+    from {
+        color: transparent;
+    }
+    to {
+        color: #e64980;
+    }
+}

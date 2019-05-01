@@ -22,6 +22,14 @@ const UTIL = {
         date = year + "-" + month + "-" + day;
 
         return date;
+    },
+    CREATE_HTML : (object) => {
+        let reduce_object = object.split("/*");
+        reduce_object = reduce_object[1].split("*/");
+
+        let HTML_str = reduce_object[0];
+
+        return HTML_str;
     }
 };
 
