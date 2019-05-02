@@ -14,11 +14,33 @@
 .todo-item:hover .remove {
     opacity: 1;
 }
+.todo-item:hover .edit {
+    animation: edit;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes edit {
+    from {
+        opacity: 1;
+        transform: rotate(0deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(360deg);
+    }
+}
 
 .todo-item + .todo-item {
     border-top: 1px solid #f1f3f5;
 }
 
+.edit {
+    margin-left: 1rem;
+    color: #adb5bd;
+    font-weight: 600;
+    opacity: 0;
+}
 
 .remove {
     margin-right: 1rem;

@@ -41,7 +41,6 @@ class Notice_Card extends React.Component {
             title = e.target.parentNode.getAttribute('data-title');
         }
         this.setState({ [title] : "fas fa-heart like"})
-        console.log(this.state);
     };
 
     render(){

@@ -14,6 +14,7 @@ export default class Main extends React.Component {
         this.state = {
             input: '',
             current_date : '',
+            edit_input: '',
             todos: Store.state.Todos,
             user : Store.user_info.LoginUser
         };
@@ -74,13 +75,13 @@ export default class Main extends React.Component {
                 checked: false
             })
         });
-        console.log(this.state)
     };
 
-    handleKeyPress = (e) => {
-
-        if(e.key === 'Enter') {
+    handleKeyPress = (e, edit_mode, id, text) => {
+        if(e.key === 'Enter' && !edit_mode) {
             this.handleCreate();
+        } else {
+            this.handleSave(id, text)
         }
     };
 
@@ -111,16 +112,35 @@ export default class Main extends React.Component {
         });
     };
 
+    handleSave = (id) => {
+        const { edit_input, todos } = this.state;
+
+        const target_item = todos.findIndex(todo => todo.id === id);
+        const selected = todos[target_item];
+
+        const next_items = [...todos];
+
+        next_items[target_item] = {
+            ...selected,
+            text: edit_input
+        };
+
+        this.setState({
+            edit_input: '',
+            todos: next_items
+        });
+    };
+
     render() {
-        const { input, todos } = this.state;
+        const { input, todos, edit_input } = this.state;
         const {
             handleChange,
             handleCreate,
             handleKeyPress,
             handleToggle,
             handleRemove,
-            handleSyncTodos,
-            handleSetDate
+            handleSetDate,
+            handleSave
         } = this;
 
         Store.state.Todos = this.state.todos;
@@ -148,7 +168,14 @@ export default class Main extends React.Component {
                         />
                     )}
                 >
-                    <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove}/>
+                    <TodoItemList
+                        todos={todos}
+                        value={edit_input}
+                        onToggle={handleToggle}
+                        onRemove={handleRemove}
+                        onChange={handleChange}
+                        onSave={handleSave}
+                    />
                 </TodoListTemplate>
             </React.Fragment>
         );
