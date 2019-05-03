@@ -18,10 +18,7 @@ export default class Main extends React.Component {
             todos: Store.state.Todos,
             user : Store.user_info.LoginUser
         };
-        console.log(Store.user_info);
-
-        console.log(Store.state)
-    };
+    }
 
     handleSyncTodos = (item, user) => {
         this.setState({
@@ -35,7 +32,7 @@ export default class Main extends React.Component {
     handleSearchTodoList = () => {
         let now_selected_date = this.state.current_date;
         let user_name = this.state.user;
-        console.log(now_selected_date);
+
         axios.get('/searchlist', {
             params : {
                 username : user_name,

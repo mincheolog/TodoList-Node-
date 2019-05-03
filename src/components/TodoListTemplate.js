@@ -1,6 +1,7 @@
 import React from 'react';
 import '../css/TodoListTemplate.css';
 import SearchButton from "@material-ui/core/Button/Button";
+import Hidden from '@material-ui/core/Hidden';
 
 export default class TodoListTemplate extends React.Component {
     constructor(props) {
@@ -9,9 +10,11 @@ export default class TodoListTemplate extends React.Component {
     render(){
         return (
             <main className="todo-list-template">
-                <div className="title">
-                    TodoList
-                </div>
+                <Hidden xsDown>
+                    <div className="title">
+                        TodoList
+                    </div>
+                </Hidden>
                 <section className="picker dateform-wrapper">
                     { this.props.date_form }
                     <SearchButton
