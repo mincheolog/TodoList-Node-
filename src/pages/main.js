@@ -5,6 +5,7 @@ import DateForm from '../components/DateForm';
 import TodoItemList from '../components/TodoItemList';
 import axios from 'axios';
 import Store from '../store/StateStore';
+import ItemCheckDialog from '../components/ItemCheckDialog';
 
 export default class Main extends React.Component {
 
@@ -15,6 +16,8 @@ export default class Main extends React.Component {
             input: '',
             current_date : '',
             edit_input: '',
+            save_id: 0,
+            alert_open: false,
             todos: Store.state.Todos,
             user : Store.user_info.LoginUser
         };
@@ -61,6 +64,12 @@ export default class Main extends React.Component {
         });
     };
 
+    handleEditChange = (e) => {
+        this.setState({
+            edit_input: e.target.value
+        });
+    };
+
     handleCreate = () => {
         const { input, todos } = this.state;
         this.setState({
@@ -74,11 +83,11 @@ export default class Main extends React.Component {
         });
     };
 
-    handleKeyPress = (e, edit_mode, id, text) => {
+    handleKeyPress = (e, edit_mode, id) => {
         if(e.key === 'Enter' && !edit_mode) {
             this.handleCreate();
         } else {
-            this.handleSave(id, text)
+            this.handleSave(id)
         }
     };
 
@@ -109,7 +118,7 @@ export default class Main extends React.Component {
         });
     };
 
-    handleSave = (id) => {
+    handleConfirm = (id) => {
         const { edit_input, todos } = this.state;
 
         const target_item = todos.findIndex(todo => todo.id === id);
@@ -119,7 +128,8 @@ export default class Main extends React.Component {
 
         next_items[target_item] = {
             ...selected,
-            text: edit_input
+            text: edit_input,
+            checked: false
         };
 
         this.setState({
@@ -128,8 +138,54 @@ export default class Main extends React.Component {
         });
     };
 
+    handleSave = (id) => {
+        if(this.state.edit_input.length === 0) {
+            this.handleDialogOpen(id);
+        } else {
+            this.handleConfirm(id);
+        }
+    };
+
+    handleEditCancel = () => {
+        let alert_open_status = this.state.alert_open;
+
+        if(alert_open_status === true) {
+            this.setState({
+                edit_input: '',
+                save_id: '',
+                alert_open: false
+            })
+        } else {
+            this.setState({
+                edit_input: '',
+                save_id: ''
+            })
+        }
+    };
+
+    handleDialogOpen = (id) => {
+        this.setState({
+            alert_open: true,
+            save_id: id
+        });
+    };
+
+    handleDialogClose = (flg) => {
+        if(flg === 1) {
+            let id = this.state.save_id;
+
+            this.handleConfirm(id);
+            this.setState({
+                alert_open: false,
+                save_id: ''
+            });
+        } else {
+            this.handleEditCancel();
+        }
+    };
+
     render() {
-        const { input, todos, edit_input } = this.state;
+        const { input, todos, edit_input, alert_open } = this.state;
         const {
             handleChange,
             handleCreate,
@@ -137,7 +193,10 @@ export default class Main extends React.Component {
             handleToggle,
             handleRemove,
             handleSetDate,
-            handleSave
+            handleSave,
+            handleEditChange,
+            handleEditCancel,
+            handleDialogClose
         } = this;
 
         Store.state.Todos = this.state.todos;
@@ -170,10 +229,15 @@ export default class Main extends React.Component {
                         value={edit_input}
                         onToggle={handleToggle}
                         onRemove={handleRemove}
-                        onChange={handleChange}
+                        onEditChange={handleEditChange}
                         onSave={handleSave}
+                        onEditCancel={handleEditCancel}
                     />
                 </TodoListTemplate>
+                <ItemCheckDialog
+                    open_status={alert_open}
+                    onAlertClose={handleDialogClose}
+                />
             </React.Fragment>
         );
     }
