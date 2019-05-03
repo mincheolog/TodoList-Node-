@@ -49,7 +49,6 @@ class TodoItem extends Component {
             onToggle,
             onRemove,
             onEditChange,
-            onKeyPress,
             onSave,
             onEditCancel,
             classes
@@ -71,7 +70,6 @@ class TodoItem extends Component {
                             fullWidth="true"
                             value={edit_input}
                             onChange={onEditChange}
-                            onKeyPress={onKeyPress}
                         />}
                 </div>
                 {

@@ -83,11 +83,9 @@ export default class Main extends React.Component {
         });
     };
 
-    handleKeyPress = (e, edit_mode, id) => {
-        if(e.key === 'Enter' && !edit_mode) {
+    handleKeyPress = (e) => {
+        if(e.key === 'Enter') {
             this.handleCreate();
-        } else {
-            this.handleSave(id)
         }
     };
 
