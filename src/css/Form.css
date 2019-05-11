@@ -1,5 +1,8 @@
 .form {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-column-gap: 1%;
 }
 
 .create-button {
@@ -9,6 +12,7 @@
     padding-right: 1rem;
     margin-left: 1rem;
     margin-top: 10px;
+    text-align: center;
     height: 22px;
     background: #22b8cf;
     border-radius: 3px;
@@ -19,4 +23,25 @@
 
 .create-button:hover {
     background: #3bc9db;
+}
+
+.todo-form {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: flex;
+}
+
+.start-time {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+.end-time {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }

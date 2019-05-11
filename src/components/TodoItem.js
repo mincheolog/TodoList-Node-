@@ -45,6 +45,8 @@ class TodoItem extends Component {
             text,
             checked,
             id,
+            start_time,
+            end_time,
             edit_input,
             onToggle,
             onRemove,
@@ -54,6 +56,11 @@ class TodoItem extends Component {
             classes
         } = this.props;
 
+
+        if (this.props == undefined) {
+            throw new Error("TodoItem error");
+        }
+
         return (
             <div className="todo-item">
                 <div className="remove" onClick={(e) => {
@@ -62,15 +69,42 @@ class TodoItem extends Component {
                 }
                 }><i className="far fa-trash-alt"></i></div>
                 <div className={`todo-text ${checked && this.state[id] === false && 'checked'}`}>
-                    { this.state[id] === false
-                        ? <div>{ text }</div>
-                        : <TextField
-                            label="Edit"
-                            margin="dense"
-                            fullWidth="true"
-                            value={edit_input}
-                            onChange={onEditChange}
-                        />}
+                    {
+                        this.state[id] === false
+                            ? <div className={"todo-start-time"}>{ start_time }</div>
+                            : ''
+                            /*<TextField
+                                label="Edit"
+                                margin="dense"
+                                fullWidth="true"
+                                value={edit_input}
+                                onChange={onEditChange}
+                            />*/
+                    }
+                    {
+                        this.state[id] === false
+                            ? <div className={"todo-end-time"}>{ end_time }</div>
+                            : ''
+                            /*<TextField
+                                label="Edit"
+                                margin="dense"
+                                fullWidth="true"
+                                value={edit_input}
+                                onChange={onEditChange}
+                            />*/
+                    }
+                    {
+                        this.state[id] === false
+                            ? <div className={"todo-name"}>{ text }</div>
+                            : <TextField
+                                label="Edit"
+                                margin="dense"
+                                fullWidth="true"
+                                value={edit_input}
+                                onChange={onEditChange}
+                                className={"todo-edit"}
+                            />
+                    }
                 </div>
                 {
                     this.state[id] === false

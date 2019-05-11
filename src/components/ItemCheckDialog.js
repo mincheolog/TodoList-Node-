@@ -26,10 +26,10 @@ export default class ItemCheckDialog extends Component {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"test item"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"잠깐!"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        OK?
+                        할 일 내용이 없습니다. 공백으로 저장하시겠습니까?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -37,13 +37,13 @@ export default class ItemCheckDialog extends Component {
                         e.stopPropagation();
                         onAlertClose(0);
                     }} color="primary">
-                        Disagree
+                        아니오
                     </Button>
                     <Button onClick={(e) => {
                         e.stopPropagation();
                         onAlertClose(1);
                     }} color="primary" autoFocus>
-                        Agree
+                        네
                     </Button>
                 </DialogActions>
             </Dialog>

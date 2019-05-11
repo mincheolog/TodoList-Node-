@@ -8,12 +8,19 @@ class TodoItemList extends Component {
     }
 
     render() {
+
+        if (this.props == undefined) {
+            throw new Error("TodoItemList error");
+        }
+
         const { todos, edit_input, onToggle, onRemove, onEditChange, onSave, onEditCancel } = this.props;
 
         const todoList = todos.map(
-            ({id, text, checked}) => (
+            ({id, start_time, end_time, text, checked}) => (
                 <TodoItem
                     id={id}
+                    start_time={start_time}
+                    end_time={end_time}
                     text={text}
                     edit_input={edit_input}
                     checked={checked}

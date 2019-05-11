@@ -14,8 +14,12 @@ export default class Main extends React.Component {
         this.id = Store.state.Todo_id;
         this.state = {
             input: '',
+            start_time: '',
+            end_time: '',
             current_date : '',
             edit_input: '',
+            edit_start_time: '',
+            edit_end_time: '',
             save_id: 0,
             alert_open: false,
             todos: Store.state.Todos,
@@ -64,19 +68,47 @@ export default class Main extends React.Component {
         });
     };
 
+    handleChangeStartTime = (e) => {
+        this.setState({
+            start_time: e.target.value
+        });
+    };
+
+    handleChangeEndTime = (e) => {
+        this.setState({
+            end_time: e.target.value
+        });
+    };
+
     handleEditChange = (e) => {
         this.setState({
             edit_input: e.target.value
         });
     };
 
+    handleEditChangeStartTime = (e) => {
+        this.setState({
+            edit_start_time: e.target.value
+        });
+    };
+
+    handleEditChangeEndTime = (e) => {
+        this.setState({
+            edit_end_time: e.target.value
+        });
+    };
+
     handleCreate = () => {
-        const { input, todos } = this.state;
+        const { input, todos, start_time, end_time } = this.state;
         this.setState({
             input: '',
+            start_time: '',
+            end_time: '',
 
             todos: todos.concat({
                 id: this.id++,
+                start_time: start_time,
+                end_time: end_time,
                 text: input,
                 checked: false
             })

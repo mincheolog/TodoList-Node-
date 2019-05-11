@@ -70,6 +70,38 @@
 .todo-text {
     flex: 1;
     word-break: break-all;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: auto auto;
+}
+
+.todo-text > .todo-start-time {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.todo-text > .todo-end-time {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.todo-text > .todo-name {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    padding: 10px 0 10px 2px;
+}
+
+.todo-text > .todo-edit {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
 }
 
 .checked {

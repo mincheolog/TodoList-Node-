@@ -13,12 +13,10 @@ export default class App extends Component {
     };
   }
   hrefPage = (page_name) => {
-    console.log(page_name);
     let next_page = {};
     switch (page_name) {
       case 'TodoList':
         next_page = <Main/>;
-        console.log(next_page);
         break;
       case 'Notice':
         next_page = <Notice/>;
