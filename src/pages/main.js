@@ -57,6 +57,7 @@ export default class Main extends React.Component {
     };
 
     handleSetDate = (date) => {
+        console.log(date);
         this.setState({
             current_date : date
         })
@@ -100,19 +101,23 @@ export default class Main extends React.Component {
 
     handleCreate = () => {
         const { input, todos, start_time, end_time } = this.state;
-        this.setState({
-            input: '',
-            start_time: '',
-            end_time: '',
-
-            todos: todos.concat({
-                id: this.id++,
-                start_time: start_time,
-                end_time: end_time,
-                text: input,
-                checked: false
-            })
-        });
+        if(input == '') {
+            console.log("input empty")
+        } else {
+            this.setState({
+                input: '',
+                start_time: '',
+                end_time: '',
+    
+                todos: todos.concat({
+                    id: this.id++,
+                    start_time: start_time,
+                    end_time: end_time,
+                    text: input,
+                    checked: false
+                })
+            });
+        }
     };
 
     handleKeyPress = (e) => {

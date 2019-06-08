@@ -1,5 +1,5 @@
-import MuiPickersUtilsProvider from "material-ui-pickers/MuiPickersUtilsProvider";
-import DatePicker from "material-ui-pickers/DatePicker/DatePickerInline";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import React, {useCallback, useEffect, useState} from "react";
 
@@ -34,10 +34,8 @@ const DateForm = ({onSetDate}) => {
 
     return(
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker
-                keyboard
-                clearable
-                variant="outlined"
+            <KeyboardDatePicker
+                inputVariant="outlined"
                 label="Select Now Date"
                 value={selectedDate}
                 onChange={handleDateChange}

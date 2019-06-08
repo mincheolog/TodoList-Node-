@@ -96,6 +96,7 @@ module.exports = (app) => {
             .where('Created_At').equals(util.GET_CURRENT_DATE())
             .then((list) => {
                 if(list.length == 0) {
+                    todosave_model = new todosave_model(data);
                     todosave_model.save(data)
                         .then((data) => {
                             RES_MODEL.head.status = 200;
