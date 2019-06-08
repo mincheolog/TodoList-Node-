@@ -1,4 +1,5 @@
 module.exports = {
+  mode: process.env.NODE_ENV,
   entry: {
       main : './src/index.js',
   },
@@ -7,7 +8,6 @@ module.exports = {
       path: __dirname + '/public',
       filename: 'index.js'
   },
-  devtool: 'inline-source-map',
   module: {
     rules: [
         {

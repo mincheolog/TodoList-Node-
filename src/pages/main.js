@@ -231,6 +231,7 @@ export default class Main extends React.Component {
 
         Store.state.Todos = this.state.todos;
         Store.state.Todo_id = this.id;
+        Store.state.selected_date = this.state.current_date;
 
         if(this.state.todos !== Store.state.Todos){
             this.forceUpdate();

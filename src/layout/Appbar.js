@@ -95,44 +95,55 @@ class TodoAppbar extends  React.Component {
     };
 
     handleLogin = () => {
-        axios.get('/Login', {
-            params: {
-                username : this.state.Email,
-                password : this.state.Password
-            }
-        }).then(res => {
-            console.log(res);
-            if (res.data.status === 200) {
-                Store.user_info.LoginUser = res.data.user.Email;
-                Store.user_info.LoginStatus = 1;
-                this.props.SyncTodo(res.data.list_data[0].Todolist);
-                this.setState({
-                    Email : "",
-                    Password : "",
-                    login_open : false
-                });
-            } else if(res.data.status === 403) {
-                this.setState({
-                    Email_Error : true,
-                    Password_Error : true
-                })
-            } else {
-                if (res.data.success === 0) {
+        if(this.state.Email == "" && this.state.Password == "") {
+            this.setState({
+                Email_Error : true,
+                Password_Error : true
+            });
+        } else if(this.state.Email == "") {
+            this.setState({
+                Email_Error : true
+            });
+        } else if(this.state.Password == "") {
+            this.setState({
+                Password_Error : true
+            });
+        } else {
+            axios.get('/Login', {
+                params: {
+                    username : this.state.Email,
+                    password : this.state.Password
+                }
+            }).then(res => {
+                if (res.data.head.status === 200) {
+                    let Email = res.data.body.user;
+                    let list_data = res.data.body.list_data;
+
+                    Store.user_info.LoginUser = Email;
+                    Store.user_info.LoginStatus = 1;
+                    if(list_data.length > 0) {
+                        this.props.SyncTodo(list_data[0].Todolist);
+                        this.props.hrefAction("Re_render");
+                        this.props.hrefAction("TodoList");
+                    } else {
+                        this.props.SyncTodo([]);
+                        this.props.hrefAction("Re_render");
+                        this.props.hrefAction("TodoList");
+                    }
                     this.setState({
-                        Email_Error : true
-                    })
-                } else if (res.data.success === 2) {
-                    this.setState({
-                        Password_Error : true
-                    })
-                } else {
+                        Email : "",
+                        Password : "",
+                        login_open : false
+                    });
+                } else if(res.data.head.status === 403) {
                     this.setState({
                         Email_Error : true,
                         Password_Error : true
                     })
+                    alert("Server Not Response");
                 }
-            }
-        }).catch(response => { console.log(response.data) })
+            }).catch(res => { console.log(res.data) })
+        }
     };
 
     handleLogoutOpen = () => {
@@ -146,15 +157,17 @@ class TodoAppbar extends  React.Component {
     handleLogout = () => {
         axios.post('/todosave', {
             "Email" : Store.user_info.LoginUser,
-            "Todolist" : Store.state.Todos
+            "Todolist" : Store.state.Todos,
+            "Selected_date" : Store.state.selected_date
         }).then(res => {
-            if(res.status = 200){
+            res = res.data;
+            if(res.head.status = 200){
                 Store.user_info.LoginUser = "";
                 Store.user_info.LoginStatus = 0;
                 Store.state.Todos = [];
                 this.setState({ logout_open : false });
             } else {
-                console.log(res.status);
+                console.log(res.head.status);
             }
         }).catch(res => { console.log(res) });
     };
@@ -297,7 +310,7 @@ class TodoAppbar extends  React.Component {
                             autoFocus
                             margin="dense"
                             id="Email"
-                            label="Email Address"
+                            label={this.state.Email_Error ? "Invaild_Email" : "Email Address"}
                             error={this.state.Email_Error}
                             type="email"
                             value={this.state.Email}
@@ -307,7 +320,7 @@ class TodoAppbar extends  React.Component {
                         <TextField
                             margin="dense"
                             id="password"
-                            label="Password"
+                            label={this.state.Password_Error ? "Invaild_Password" : "Password"}
                             error={this.state.Password_Error}
                             type="password"
                             value={this.state.Password}

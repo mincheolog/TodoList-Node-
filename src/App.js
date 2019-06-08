@@ -21,6 +21,9 @@ export default class App extends Component {
       case 'Notice':
         next_page = <Notice/>;
         break;
+      case 'Re_render':
+        next_page = "";
+        break;
       default:
         next_page = <NotFound/>;
         break;
