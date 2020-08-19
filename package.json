@@ -23,7 +23,7 @@
     "express": "^4.16.4",
     "file-loader": "^3.0.1",
     "fsevents": "^1.2.8",
-    "mongoose": "^5.5.4",
+    "mongoose": "^5.7.5",
     "nan": "^2.13.2",
     "nodemon": "^1.19.0",
     "react": "^16.8.6",
